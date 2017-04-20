@@ -1,7 +1,7 @@
 import React from 'react';
-import {Column} from './layout';
+import {Column} from './styles/layout';
 import {dateToStr, relativeRate} from './utils';
-import {LineChart, XAxis, YAxis, CartesianGrid, Tooltip, Line} from 'recharts';
+import {ResponsiveContainer, LineChart, XAxis, YAxis, CartesianGrid, Tooltip, Line} from 'recharts';
 import {connect} from 'react-redux';
 import {eachDay} from 'date-fns';
 import _ from 'lodash/fp';
@@ -9,17 +9,17 @@ import _ from 'lodash/fp';
 const Graph = ({data}) => {
   return (
     <Column>
-      <LineChart
-        width={800}
-        height={250}
-        data={data}
-      >
-        <XAxis dataKey="name" />
-        <YAxis domain={["auto", "auto"]} />
-        <CartesianGrid />
-        <Line type="monotone" dataKey="value" />
-        <Tooltip />
-      </LineChart>
+      <ResponsiveContainer width="100%">
+        <LineChart
+          data={data}
+        >
+          <XAxis dataKey="name" />
+          <YAxis domain={["auto", "auto"]} />
+          <CartesianGrid />
+          <Line type="monotone" dataKey="value" />
+          <Tooltip />
+        </LineChart>
+      </ResponsiveContainer>
     </Column>
   );
 }

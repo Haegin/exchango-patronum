@@ -1,10 +1,11 @@
 import React from 'react';
-import {Row, Column} from './layout';
+import {Row, Column} from './styles/layout';
 import {withHandlers, compose} from 'recompose';
 import {format} from 'date-fns';
 import {setFromCurrency, setToCurrency, setFromDate, setToDate} from './actions';
 import {connect} from 'react-redux';
 import CURRENCIES from './currencies';
+import {Label, Select, Input} from './styles/forms';
 
 const enhance = compose(
   withHandlers({
@@ -17,10 +18,10 @@ const enhance = compose(
 const SelectInput = enhance(({label, name, values, selected, onChange}) => {
   return (
     <Row>
-      <label htmlFor={name}>{label}</label>
-      <select name={name} id={name} value={selected} onChange={onChange}>
+      <Label htmlFor={name}>{label}</Label>
+      <Select name={name} id={name} value={selected} onChange={onChange}>
     {values.map((value) => (<option value={value} key={value}>{value}</option>))}
-      </select>
+      </Select>
     </Row>
   );
 })
@@ -28,8 +29,8 @@ const SelectInput = enhance(({label, name, values, selected, onChange}) => {
 const DateInput = enhance(({label, name, value, onChange}) => {
   return (
     <Row>
-      <label htmlFor={name}>{label}</label>
-      <input type="date" name={name} id={name} onChange={onChange} value={value} />
+      <Label htmlFor={name}>{label}</Label>
+      <Input type="date" name={name} id={name} onChange={onChange} value={value} />
     </Row>
   );
 })

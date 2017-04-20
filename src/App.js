@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {Container, Row} from './layout';
+import {Container, Row} from './styles/layout';
 import Inputs from './Inputs';
 import Graph from './Graph';
 import {compose, withProps} from 'recompose';
