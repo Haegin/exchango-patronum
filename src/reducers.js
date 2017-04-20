@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
-import {parse} from 'date-fns';
+import defaults from './defaults';
 
-const currencies = (state = {from: "GBP", to: "CAD"}, action) => {
+const currencies = (state = {from: defaults.fromCurrency, to: defaults.toCurrency}, action) => {
   switch (action.type) {
     case 'SET_FROM_CURRENCY':
       return {
@@ -18,7 +18,7 @@ const currencies = (state = {from: "GBP", to: "CAD"}, action) => {
   }
 }
 
-const dates = (state = {from: parse("2017/04/01"), to: new Date()}, action) => {
+const dates = (state = {from: defaults.fromDate, to: defaults.toDate}, action) => {
   switch (action.type) {
     case 'SET_FROM_DATE':
       return {
@@ -38,10 +38,7 @@ const dates = (state = {from: parse("2017/04/01"), to: new Date()}, action) => {
 const rates = (state =  {}, action) => {
   switch (action.type) {
     case 'RATES_LOADED':
-      return {
-        ...state,
-        rates: {...state.rates, [action.date]: action.rates}
-      }
+      return {...state, [action.date]: action.rates}
     default:
       return state;
   }

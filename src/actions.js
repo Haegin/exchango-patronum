@@ -53,5 +53,6 @@ export {
   setFromCurrency,
   setToCurrency,
   setFromDate,
-  setToDate
+  setToDate,
+  datesChanged,
 }

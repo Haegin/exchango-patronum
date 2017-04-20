@@ -1,23 +1,18 @@
 import React from 'react';
 import {Column} from './layout';
-import {dateToStr} from './utils';
+import {dateToStr, relativeRate} from './utils';
 import {LineChart, XAxis, YAxis, CartesianGrid, Tooltip, Line} from 'recharts';
 import {connect} from 'react-redux';
+import {eachDay} from 'date-fns';
+import _ from 'lodash/fp';
 
-const Graph = ({fromCurrency, toCurrency, fromDate, toDate}) => {
+const Graph = ({data}) => {
   return (
     <Column>
       <LineChart
         width={800}
         height={250}
-        data={[
-          {name: dateToStr(new Date(2017, 1, 1)), value: 1.049},
-          {name: dateToStr(new Date(2017, 2, 1)), value: 1.047},
-          {name: dateToStr(new Date(2017, 3, 1)), value: 1.039},
-          {name: dateToStr(new Date(2017, 4, 1)), value: 1.041},
-          {name: dateToStr(new Date(2017, 5, 1)), value: 1.046},
-          {name: dateToStr(new Date(2017, 6, 1)), value: 1.042},
-        ]}
+        data={data}
       >
         <XAxis dataKey="name" />
         <YAxis domain={["auto", "auto"]} />
@@ -25,20 +20,21 @@ const Graph = ({fromCurrency, toCurrency, fromDate, toDate}) => {
         <Line type="monotone" dataKey="value" />
         <Tooltip />
       </LineChart>
-      <p>From: {dateToStr(fromDate)}</p>
-      <p>To: {dateToStr(toDate)}</p>
     </Column>
   );
 }
 
 const mapStateToProps = (state) => {
+  const startDate = state.dates.from;
+  const endDate = state.dates.to;
   return {
-    fromCurrency: state.currencies.from,
-    toCurrency: state.currencies.to,
-    fromDate: state.dates.from,
-    toDate: state.dates.to,
-    rates: state.rates
-  }
+    data: eachDay(startDate, endDate).map((day) => {
+      const dayRates = state.rates[day]
+      const toRate = dayRates === undefined ? 1 : dayRates[state.currencies.to]
+      const fromRate = dayRates === undefined ? 1 : dayRates[state.currencies.from]
+      return {name: dateToStr(day), value: relativeRate(fromRate, toRate)}
+    }
+  )}
 }
 
 export default connect(mapStateToProps)(Graph);
