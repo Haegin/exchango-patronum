@@ -1,4 +1,4 @@
-import format from 'date-fns/format';
+import {format} from 'date-fns';
 
 const dateToStr = (date) => (format(date, "Do MMM YYYY"));
 

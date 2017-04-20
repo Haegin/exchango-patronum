@@ -5,29 +5,32 @@ import Inputs from './Inputs';
 import Graph from './Graph';
 import {withState, compose} from 'recompose';
 import {parse} from 'date-fns';
+import {Provider} from 'react-redux';
+import {createStore, applyMiddleware} from 'redux';
+import reducers from './reducers';
+import logger from 'redux-logger';
+import reduxThunk from 'redux-thunk';
+import {composeWithDevTools} from 'redux-devtools-extension';
+
+const store = createStore(reducers, composeWithDevTools(
+  applyMiddleware(reduxThunk, logger)
+))
 
 const App = (props) => {
   return (
-    <Container>
-      <Row>
-        <Inputs
-          setFromCurrency={props.setFromCurrency}
-          setToCurrency={props.setToCurrency}
-          setFromDate={props.setFromDate}
-          setToDate={props.setToDate}
-          fromCurrency={props.fromCurrency}
-          toCurrency={props.toCurrency}
-          fromDate={props.fromDate}
-          toDate={props.toDate}
-        />
-        <Graph
-          fromCurrency={props.fromCurrency}
-          toCurrency={props.toCurrency}
-          fromDate={props.fromDate}
-          toDate={props.toDate}
-        />
-      </Row>
-    </Container>
+    <Provider store={store}>
+      <Container>
+        <Row>
+          <Inputs />
+          <Graph
+            fromCurrency={props.fromCurrency}
+            toCurrency={props.toCurrency}
+            fromDate={props.fromDate}
+            toDate={props.toDate}
+          />
+        </Row>
+      </Container>
+    </Provider>
   );
 }
 

@@ -2,6 +2,9 @@ import React from 'react';
 import {Row, Column} from './layout';
 import {withHandlers, compose} from 'recompose';
 import {format} from 'date-fns';
+import {setFromCurrency, setToCurrency, setFromDate, setToDate} from './actions';
+import {connect} from 'react-redux';
+import CURRENCIES from './currencies';
 
 const enhance = compose(
   withHandlers({
@@ -11,11 +14,13 @@ const enhance = compose(
   })
 )
 
-const Input = enhance(({label, name, value, onChange}) => {
+const SelectInput = enhance(({label, name, values, selected, onChange}) => {
   return (
     <Row>
       <label htmlFor={name}>{label}</label>
-      <input type="text" name={name} id={name} onChange={onChange} value={value} />
+      <select name={name} id={name} value={selected} onChange={onChange}>
+    {values.map((value) => (<option value={value} key={value}>{value}</option>))}
+      </select>
     </Row>
   );
 })
@@ -33,8 +38,20 @@ const Inputs = (props) => {
   return (
     <Column>
       <h2>Currencies</h2>
-      <Input label="From" name="from" onChange={props.setFromCurrency} value={props.fromCurrency} />
-      <Input label="To" name="to" onChange={props.setToCurrency} value={props.toCurrency} />
+      <SelectInput
+        label="From"
+        name="from"
+        onChange={props.setFromCurrency}
+        values={CURRENCIES}
+        selected={props.fromCurrency}
+      />
+      <SelectInput
+        label="To"
+        name="to"
+        onChange={props.setToCurrency}
+        values={CURRENCIES}
+        selected={props.toCurrency}
+      />
       <hr />
       <h2>Dates</h2>
       <DateInput label="From" name="from" onChange={props.setFromDate} value={format(props.fromDate, 'YYYY-MM-DD')} />
@@ -43,4 +60,22 @@ const Inputs = (props) => {
   );
 }
 
-export default Inputs;
+const mapStateToProps = (state) => {
+  return {
+    fromCurrency: state.currencies.from,
+    toCurrency: state.currencies.to,
+    fromDate: state.dates.from,
+    toDate: state.dates.to
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return  {
+    setFromCurrency: (currency) => { dispatch(setFromCurrency(currency)) },
+    setToCurrency: (currency) => { dispatch(setToCurrency(currency)) },
+    setFromDate: (date) => { dispatch(setFromDate(date)) },
+    setToDate: (date) => { dispatch(setToDate(date)) }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Inputs);
