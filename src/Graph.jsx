@@ -6,17 +6,15 @@ import {connect} from 'react-redux';
 import {eachDay} from 'date-fns';
 import _ from 'lodash/fp';
 
-const Graph = ({data}) => {
+const Graph = ({data, from, to}) => {
   return (
     <Column grow>
       <ResponsiveContainer width="100%" height={660}>
-        <LineChart
-          data={data}
-        >
-          <XAxis dataKey="name" />
-          <YAxis domain={["auto", "auto"]} />
+        <LineChart data={data} >
+          <XAxis dataKey="name" label={to} />
+          <YAxis domain={["auto", "auto"]} label={from} />
           <CartesianGrid />
-          <Line type="monotone" dataKey="value" />
+          <Line type="monotone" dataKey="value" name={to} />
           <Tooltip />
         </LineChart>
       </ResponsiveContainer>
@@ -38,8 +36,10 @@ const mapStateToProps = (state) => {
         name: dateToStr(day),
         value: fetchRate(state.rates[day], state.currencies.from, state.currencies.to)
       }
-    }
-  )}
+    }),
+    from: state.currencies.from,
+    to: state.currencies.to,
+  }
 }
 
 export default connect(mapStateToProps)(Graph);

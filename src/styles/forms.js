@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 
 export const Label = styled.label`
-  flex: 1 0 50%;
+  flex: 1 0 30%;
+  text-align: right;
+  padding: 0 1em;
 `
 
 export const Select = styled.select`

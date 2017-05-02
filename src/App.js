@@ -1,5 +1,5 @@
 import React from 'react';
-import {Container, Row} from './styles/layout';
+import {Container, Column, Row} from './styles/layout';
 import Inputs from './Inputs';
 import Graph from './Graph';
 import {compose, withProps} from 'recompose';
@@ -20,10 +20,13 @@ const App = (props) => {
   return (
     <Provider store={store}>
       <Container>
-        <Row grow>
-          <Inputs />
-          <Graph />
-        </Row>
+        <Column grow>
+         <h1>Exchango Patronum!</h1>
+          <Row grow>
+            <Inputs />
+            <Graph />
+          </Row>
+        </Column>
       </Container>
     </Provider>
   );

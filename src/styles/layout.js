@@ -5,6 +5,7 @@ export const Container = styled.div`
   width: 100%;
   min-height: 100%;
   padding: 1em;
+  box-sizing: border-box;
 `
 
 export const Row = styled.div`
