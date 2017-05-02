@@ -1,11 +1,14 @@
 import React from 'react';
-import {Row, Column} from './styles/layout';
 import {withHandlers, compose} from 'recompose';
-import {format} from 'date-fns';
-import {setFromCurrency, setToCurrency, setFromDate, setToDate} from './actions';
 import {connect} from 'react-redux';
+import DatePicker from 'react-datepicker';
+import {Row, Column} from './styles/layout';
+import {setFromCurrency, setToCurrency, setFromDate, setToDate} from './actions';
 import CURRENCIES from './currencies';
-import {Label, Select, Input} from './styles/forms';
+import {Label, Select} from './styles/forms';
+import moment from 'moment';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 const enhance = compose(
   withHandlers({
@@ -24,13 +27,29 @@ const SelectInput = enhance(({label, name, values, selected, onChange}) => {
       </Select>
     </Row>
   );
-})
+});
 
-const DateInput = enhance(({label, name, value, onChange}) => {
+const DateInputs = enhance(({setFromDate, setToDate, fromDate, toDate}) => {
   return (
     <Row>
-      <Label htmlFor={name}>{label}</Label>
-      <Input type="date" name={name} id={name} onChange={onChange} value={value} />
+      <DatePicker
+        inline
+        selectsStart
+        startDate={fromDate}
+        endDate={toDate}
+        onChange={setFromDate}
+        locale="en-gb"
+        todayButton="Today"
+      />
+      <DatePicker
+        inline
+        selectsEnd
+        startDate={fromDate}
+        endDate={toDate}
+        onChange={setToDate}
+        locale="en-gb"
+        todayButton="Today"
+      />
     </Row>
   );
 })
@@ -55,8 +74,12 @@ const Inputs = (props) => {
       />
       <hr />
       <h2>Dates</h2>
-      <DateInput label="From" name="from" onChange={props.setFromDate} value={format(props.fromDate, 'YYYY-MM-DD')} />
-      <DateInput label="To" name="to" onChange={props.setToDate} value={format(props.toDate, 'YYYY-MM-DD')} />
+      <DateInputs
+        fromDate={moment(props.fromDate)}
+        toDate={moment(props.toDate)}
+        setFromDate={props.setFromDate}
+        setToDate={props.setToDate}
+      />
     </Column>
   );
 }

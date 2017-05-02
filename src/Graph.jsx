@@ -9,7 +9,7 @@ import _ from 'lodash/fp';
 const Graph = ({data}) => {
   return (
     <Column>
-      <ResponsiveContainer width="100%">
+      <ResponsiveContainer width="100%" height={460}>
         <LineChart
           data={data}
         >

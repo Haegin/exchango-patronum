@@ -25,13 +25,19 @@ const ratesLoaded = (date, rates) => {
 const datesChanged = (from, to) => {
   return (dispatch, getState) => {
     const rates = getState().rates;
-    eachDay(from, to).forEach((date) => {
+    Promise.all(eachDay(from, to).map((date) => {
       if (!rates.hasOwnProperty(date)) {
-        fetch(`https://api.fixer.io/${format(date, "YYYY-MM-DD")}`)
+        return fetch(`https://api.fixer.io/${format(date, "YYYY-MM-DD")}`)
           .then((resp) => (resp.json()))
           .then((json) => { dispatch(ratesLoaded(date, json.rates)) })
+          .catch((err) => {
+            console.log(`Error fetching data for ${format(date, "YYYY-MM-DD")}`)
+            console.log(err);
+          })
+      } else {
+        return Promise.resolve()
       }
-    })
+    }))
   }
 }
 

@@ -5,7 +5,11 @@
   "dependencies": {
     "date-fns": "^1.28.3",
     "lodash": "^4.17.4",
+    "moment": "^2.18.1",
+    "nock": "^9.0.13",
+    "prop-types": "^15.5.8",
     "react": "^15.5.4",
+    "react-datepicker": "^0.46.0",
     "react-dom": "^15.5.4",
     "react-redux": "^5.0.4",
     "recharts": "^0.22.3",
@@ -14,11 +18,14 @@
     "redux-devtools-extension": "^2.13.0",
     "redux-logger": "^3.0.1",
     "redux-thunk": "^2.2.0",
-    "styled-components": "^1.4.5"
+    "styled-components": "^2.0.0-15"
   },
   "devDependencies": {
+    "enzyme": "^2.8.2",
     "eslint": "^3.19.0",
-    "react-scripts": "0.9.5"
+    "react-scripts": "0.9.5",
+    "react-test-renderer": "^15.5.4",
+    "redux-test-utils": "^0.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
