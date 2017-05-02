@@ -20,7 +20,7 @@ const App = (props) => {
   return (
     <Provider store={store}>
       <Container>
-        <Row>
+        <Row grow>
           <Inputs />
           <Graph />
         </Row>

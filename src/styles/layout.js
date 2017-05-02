@@ -10,11 +10,11 @@ export const Container = styled.div`
 export const Row = styled.div`
   display: flex;
   flex-direction: row;
-  flex: 1 0 auto;
+  flex-grow: ${props => props.grow ? 1 : 0};
 `
 
 export const Column = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 1 0 auto;
+  flex-grow: ${props => props.grow ? 1 : 0};
 `
