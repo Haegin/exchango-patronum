@@ -105,7 +105,12 @@
   },
   "babel": {
     "presets": [
-      "react-app"
+      ["env", { "modules": false }],
+      "react"
+    ],
+    "plugins": [
+      "react-hot-loader/babel",
+      ["babel-plugin-transform-object-rest-spread", { "useBuiltIns": true }]
     ]
   },
   "eslintConfig": {
