@@ -4,7 +4,6 @@ import {dateToStr, relativeRate} from './utils';
 import {ResponsiveContainer, LineChart, XAxis, YAxis, CartesianGrid, Tooltip, Line} from 'recharts';
 import {connect} from 'react-redux';
 import {eachDay} from 'date-fns';
-import _ from 'lodash/fp';
 
 const Graph = ({data, from, to}) => {
   return (
